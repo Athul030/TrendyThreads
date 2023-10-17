@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+
+<head th:replace = "~{fragments::header}">
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <ul th:replace = "~{fragments::sidebar}">
+  </ul>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar-->
+      <nav th:replace = "~{fragments::topbar}">
+      </nav>
+      <!--End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <div>
+          <form th:action="@{/search-users/0}" method="get">
+            <input type="text" id="search" name="keyword" placeholder="Search Users">
+            <button type="submit" class = "btn btn-primary">Search</button>
+          </form>
+        </div>
+        <div class="mb-3"></div>
+        <a th:href="@{/users}" class = "btn btn-primary">See All Users</a>
+        <div class="mb-3"></div>
+
+        <p th:if="${size == 0} ">No Users</p>
+        <div th:if = "${success}" class = "text-center alert alert-success">
+          <p th:text = "${success}"></p>
+        </div>
+        <div th:if = "${error}" class="text-center alert alert-danger">
+          <p th:text = "${error}"></p>
+        </div>
+        <table class="table table-bordered" th:if = "${size > 0}">
+          <thead>
+          <tr>
+            <th scope="col">Index</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">User Name</th>
+            <th scope="col">Phone Number</th>
+
+            <th scope="col">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each = "customer ,iterStat : ${customers}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <th scope="row" th:text = "${customer.firstName}"></th>
+            <th scope="row" th:text = "${customer.lastName}"></th>
+            <th scope="row" th:text = "${customer.username}"></th>
+            <th scope="row" th:text = "${customer.phoneNumber}"></th>
+
+            <td>
+              <a th:if = "${customer._blocked == true}" th:href="@{/unblock-users/{id} (id = ${customer.id})}" class="btn btn-warning">Unblock</a>
+              <a th:if = "${customer._blocked == false}" th:href = "@{/block-users/{id} (id = ${customer.id})}" class="btn btn-danger">Block</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+
+
+
+
+
+      </div>
+      <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer th:replace = "~{fragments::footer}">
+    </footer>
+    <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a th:replace = "~{fragments::scroll}">
+</a>
+
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace = "~{fragments::script}"></div>
+</body>
+
+</html>

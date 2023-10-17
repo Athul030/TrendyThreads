@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments :: header}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css" integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body id="page-top">
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <!-- Sidebar -->
+    <ul th:replace="~{fragments :: sidebar}">
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="~{fragments :: topbar}"></nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between ">
+                    <h1 class="h3 mb-0 text-gray-800">Orders</h1>
+                </div>
+
+
+                <br>
+                <!-- Page Heading -->
+                <div th:if = "${size == 0}">
+                    <p>No orders yet</p>
+                </div>
+                <div th:if = "${success}" class="text-center alert alert-success">
+                    <p th:text = "${success}"></p>
+                </div>
+                <div th:if = "${cancelled}" class="text-center alert alert-danger">
+                    <p th:text = "${cancelled}"></p>
+                </div>
+
+                <!--Just Some space-->
+                <div class="mb-3"></div>
+                <table id="orderTable"  class="table table-striped" th:if = "${size > 0}">
+                    <thead>
+                    <tr>
+                        <th scope="col">Order No.</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Delivery Date</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Order Status</th>
+                        <th scope="col">Total Price</th>
+                        <th scope="col">Payment Method</th>
+                        <th scope="col">Payment Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each = "order: ${orders}">
+                        <th scope="row" th:text = "${order.id}"></th>
+                        <th scope="row" th:text = "${order.orderDate}"></th>
+                        <td th:text = "${order.deliveryDate}"></td>
+                        <td>
+                            <span th:text="${order.customer.firstName}+' '+${order.customer.lastName}"></span>
+                        </td>
+                        <td>
+                            <select th:unless="${order.orderStatus=='Cancelled' or order.orderStatus=='Delivered' or order.orderStatus=='Returned' or order.orderStatus=='Pending'}" id="order-status" th:data-order-id="${order.id}" onchange="submitSelection(this.getAttribute('data-order-id'))" name="orderStatus" class="form-control">
+
+                                <option th:value="null">-SELECT</option>
+                                <option th:if="${order.orderStatus == 'Confirmed'}" value="Shipped">Shipped</option>
+                                <option th:if="${order.orderStatus == 'Shipped'}" value="Delivered">Delivered</option>
+                            </select>
+                            <p th:text = "${order.orderStatus}" style="color: darkred"></p>
+                        </td>
+                        <td th:text = "${order.totalPrice}" style="color: darkblue"></td>
+                        <td th:text = "${order.paymentMethod}"></td>
+                        <td th:text = "${order.paymentStatus}"></td>
+
+                        <td>
+                            <a th:href="@{/order-view/{id} (id=${order.id})}" class="button-cancel">View</a>
+
+                            <a th:if="${order.orderStatus=='Pending'}" th:href="@{cancel-order/{id} (id=${order.id})}" onclick="if(!(confirm('Are you sure you want to Cancel this Order?'))) return false">Cancel</a>
+                            <a th:if="${order.orderStatus.equals('Pending')}" th:href="@{accept-order/{id} (id=${order.id})}" onclick="if(!(confirm('Are you sure you want to Accept this Order?'))) return false">Accept</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="~{fragments :: footer}">
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a th:replace="~{fragments :: scroll}">
+</a>
+
+<!-- Logout Modal-->
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments :: script}"></div>
+<script th:src="@{/js/categories.js}"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-oP6HI5/wMkOiOi0tMz5R/ujfZkv4KplGjwhO8Hv8f/B6bU3qFqFiq4qijF8OVPm/4" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function() {
+        $('#orderTable').DataTable(
+            {
+                order: [
+                    [
+                        0, 'desc'
+                    ]
+                ]
+            }
+        );
+    });
+
+    // function submitSelection(orderId){
+    //     const select= document.getElementById("order-status").value;
+    //     window.location.href = "/admin/orders?status=" +select+"&orderId= "+orderId;
+    // }
+
+    function submitSelection(orderId) {
+        const select = document.getElementById("order-status").value;
+        console.log("start")
+        $.ajax({
+
+            url: "/admin/get-order-status/"+ orderId,
+            method: "GET",
+
+            success: function (currentStatus) {
+                if (currentStatus === "Returned" && select === "Returned") {
+                    alert("Order is already marked as Returned.");
+                    return; // Don't proceed with the update
+                }
+                // Continue with the update logic
+                window.location.href = "/admin/orders?status=" +select+"&orderId= "+orderId;
+            },
+            error: function () {
+                alert("Failed to retrieve the current order status.");
+            }
+        });
+        console.log("end")
+    }
+</script>
+
+</body>
+
+</html>

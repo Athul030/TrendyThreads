@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/imgs/theme/favicon.png}">
+
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/main1.css}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>.material-symbols-outlined {
+            font-variation-settings:
+                    'FILL' 0,
+                    'wght' 400,
+                    'GRAD' 0,
+                    'opsz' 48}</style>
+</head>
+<body>
+<header th:replace="~{fragments::topbar}"></header>
+
+
+<div class="container">
+
+    <section class="content-main">
+        <div class="content-header">
+            <div class="float-end">
+                <a th:href="@{/account}" class="btn btn-primary p-2 ms-md-5">
+                    <i class="material-icons md-plus"></i> Go to My Account
+                </a>
+            </div>
+            <div>
+                <br>
+                <h2 class="content-title card-title">Order Tracking</h2>
+                <p>Details for Order ID: [(${order.id})]</p>
+            </div>
+        </div>
+        <div class="card">
+            <header class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                            <span>
+                                <i class="material-icons md-calendar_today"></i> <b>[(${time})]</b>
+                            </span> <br>
+                        <small class="text-muted">Order ID: [(${order.id})]</small> <br>
+                        <small class="text-muted">Your order is [(${order.orderStatus})]</small>
+                    </div>
+                </div>
+            </header> <!-- card-header end// -->
+            <div th:if="${order.orderStatus=='Cancelled' or order.orderStatus=='Returned'}">
+
+                <h2 th:text="${order.orderStatus}"></h2>
+
+            </div>
+
+
+
+                <div th:unless="${order.orderStatus=='Cancelled' or order.orderStatus=='Returned'}" class="card-body">
+                    <div class="order-tracking mb-100">
+                        <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between">
+
+                            <div th:classappend="${pending==1 ?'completed':''}" class="step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><span class="material-symbols-outlined center-xy" style="font-size: 36px;">settings</span></div>
+                                </div>
+                                <h4 class="step-title">Processing Order</h4>
+                                <small class="text-muted text-sm">[(${order.orderDate})]</small>
+                            </div>
+
+                            <div th:classappend="${confirmed==2 ?'completed':''}" class="step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><span class="material-symbols-outlined center-xy" style="font-size: 36px;">shopping_cart</span></div>
+                                </div>
+                                <h4 class="step-title">Confirmed Order</h4>
+                                <small class="text-muted text-sm">[(${order.confirmedDateTime})]</small>
+                            </div>
+                            <div th:classappend="${shipped==3 ?'completed':''}" class="step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><span class="material-symbols-outlined center-xy" style="font-size: 36px;">local_shipping</span></i></div>
+                                </div>
+                                <h4 class="step-title">Product Dispatched</h4>
+                                <small class="text-muted text-sm">[(${order.shippedDateTime})]</small>
+                            </div>
+                            <div th:classappend="${delivered==4 ?'completed':''}" class="step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><span class="material-symbols-outlined center-xy" style="font-size: 36px;">check_circle</span></i></div>
+                                </div>
+                                <h4 class="step-title">Product Delivered</h4>
+                                <small class="text-muted text-sm">[(${order.deliveredDateTime})]</small>
+                            </div>
+                        </div>
+                    </div>
+
+
+                <div class="row mb-50 mt-20 order-info-wrap text-center">
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <div class="text">
+                                <h6 class="mb-1">Customer</h6>
+                                <p class="mb-1">
+                                    [(${order.customer.firstName})] <br> [(${order.customer.username})] <br> [(${order.customer.phoneNumber})]
+                                </p>
+                                <a th:href="@{/account}">View profile</a>
+                            </div>
+                        </article>
+                    </div> <!-- col// -->
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <div class="text">
+                                <h6 class="mb-1">Order info</h6>
+                                <p class="mb-1">
+                                    Shipping: FedEx Courier <br> Pay method: [(${order.paymentMethod})] <br>
+                                </p>
+                            </div>
+                        </article>
+                    </div> <!-- col// -->
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <div class="text">
+                                <h6 class="mb-1">Deliver to</h6>
+                                <p class="mb-1">
+                                    Address: [(${order.shippingAddress.addressLine1})] <br>[(${order.shippingAddress.addressLine2})]<br> [(${order.shippingAddress.city})] <br>
+                                    [(${order.shippingAddress.pincode})] <br> [(${order.shippingAddress.district})] <br>
+                                    [(${order.shippingAddress.state})] <br> [(${order.shippingAddress.country})]
+                                </p>
+                            </div>
+                        </article>
+                    </div> <!-- col// -->
+                </div> <!-- row // -->
+            </div>
+
+
+
+
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table" id="orderTable">
+                        <thead>
+                        <tr>
+                            <th width="40%">Product</th>
+                            <th width="20%">Unit Price</th>
+                            <th width="20%">Quantity</th>
+                            <th width="20%" class="text-end">Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="orderDetail : ${order.orderDetailList}">
+                            <td>
+                                <a class="itemside" href="#">
+                                    <div class="left">
+                                        <img th:src="@{'/imgs/image-product/' + ${orderDetail.product.imageUrls[0]}}" width="40" height="40" class="img-xs" alt="Item">
+                                    </div>
+                                    <div class="info"  >[(${orderDetail.product.name})] </div>
+                                </a>
+                            </td>
+                            <td >
+                                <p th:unless="${orderDetail.product.salePrice > 0}" th:text="${orderDetail.product.costPrice}"></p>
+                                <p th:if="${orderDetail.product.salePrice > 0}" th:text="${orderDetail.product.salePrice}"></p>
+
+                            </td>
+
+                            <td th:text="${orderDetail.quantity}"></td>
+                            <td class="text-end">
+                                <p th:unless="${orderDetail.product.salePrice > 0}" th:text="${orderDetail.product.costPrice} * ${orderDetail.quantity}"></p>
+                                <p th:if="${orderDetail.product.salePrice > 0}" th:text="${orderDetail.product.salePrice} * ${orderDetail.quantity}"></p>
+                            </td>
+
+                        </tr>
+                        <tr class="col-lg-12">
+                            <td colspan="4" >
+                                <article class="float-end">
+                                    <dl class="dlist" th:if="${order.discountPrice != null}">
+                                        <dt>Total Price :</dt>
+                                        <dd th:with="totalPrice=(${order.totalPrice} + ${order.discountPrice})" th:text="${#numbers.formatDecimal(totalPrice,0,'COMMA', 2,'POINT')}"></dd>
+                                    </dl>
+                                    <dl class="dlist">
+                                        <dt>Shipping cost:</dt>
+                                        <dd>Free</dd>
+                                    </dl>
+                                    <dl class="dlist" th:if="${order.discountPrice != null}">
+                                        <dt>Discount</dt>
+                                        <dd  th:text="${order.discountPrice}"></dd>
+                                    </dl>
+                                    <dl class="dlist">
+                                        <dt>Grand total:</dt>
+                                        <dd> <b class="h5">[(${order.totalPrice})]</b> </dd>
+                                    </dl>
+                                    <dl class="dlist">
+                                        <dt class="text-muted">Status:</dt>
+                                        <dd>
+                                            <span class="badge rounded-pill alert-success text-success">Payment [(${order.paymentStatus})]</span>
+                                        </dd>
+                                    </dl>
+                                </article>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div> <!-- table-responsive// -->
+            </div>
+
+
+        </div><!-- card end// -->
+    </section> <!-- content-main end// -->
+
+
+
+
+
+</div>
+
+
+<div th:replace="~{fragments::footer}"></div>
+
+<div th:replace="~{fragments::script}"></div>
+
+
+
+</body>
+
+</html>

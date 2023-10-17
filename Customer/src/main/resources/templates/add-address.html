@@ -1,0 +1,83 @@
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+    <head th:replace="~{fragments::head}">
+
+
+
+    <body>
+    <header th:replace="~{fragments::topbar}"></header>
+
+    <section class="pt-50 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 m-auto">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                                <div class="padding_eight_all bg-white">
+                                    <div class="heading_s1">
+                                        <h4 class="mb-30">Add Address</h4>
+                                    </div>
+
+
+                                    <form th:action="@{/save-address}" method="post" th:object="${addressDto}">
+
+                                        <div class="form-group">
+                                            <label for="addressLine1">Address Line 1</label>
+                                            <input type="text"  th:field="*{address_line_1}" class="form-control" id="addressLine1" name="addressLine1" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="addressLine2">Address Line 2</label>
+                                            <input type="text"  th:field="*{address_line_2}" class="form-control" id="addressLine2" name="addressLine2" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="city">City</label>
+                                            <input type="text"  th:field="*{city}" class="form-control" id="city" name="city" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pincode">Pincode</label>
+                                            <input type="text"  th:field="*{pincode}" class="form-control" id="pincode" name="pincode" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="district">District</label>
+                                            <input type="text"  th:field="*{district}" class="form-control" id="district" name="district" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="state">State</label>
+                                            <input type="text"  th:field="*{state}" class="form-control" id="state" name="state" required="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="country">Country</label>
+                                            <input type="text" th:field="*{country}" class="form-control" id="country" name="country" required="">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Save Address</button>
+
+
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    </main>
+
+    <div th:replace="~{fragments::footer}"></div>
+
+
+    <!-- Vendor JS-->
+    <div th:replace="~{fragments::script}"></div>
+
+    <!-- Template  JS -->
+    <script th:src="@{js/main.js?v=3.4}"></script>
+    <script th:src="@{js/shop.js?v=3.4}"></script>
+
+
+    </body>
+
+    </html>

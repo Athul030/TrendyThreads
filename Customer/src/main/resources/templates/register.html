@@ -1,0 +1,148 @@
+﻿
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+<head th:replace="~{fragments::head}">
+
+
+<body>
+<header th:replace="~{fragments::topbar}"></header>
+
+<section class="pt-150 pb-150">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 m-auto">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
+                            <div class="padding_eight_all bg-white">
+                                <div class="heading_s1">
+                                    <h3 class="mb-30">Register</h3>
+                                </div>
+
+                                <div class="mb-5">
+                                <div th:if = "${error}">
+                                    <p class = "alert alert-danger" th:text = "${error}"></p>
+                                </div>
+                                <div th:if = "${success}">
+                                    <p class = "alert alert-success" th:text = "${success}"></p>
+                                </div>
+                                <div th:if = "${passwordError}">
+                                    <p class = "alert alert-danger" th:text = "${passwordError}"></p>
+                                </div>
+                                </div>
+
+
+                                <form method="post" th:action="@{/registerNew}" th:object="${customerDto}">
+
+                                    <div class="form-group">
+                                    <input type="text" required="" th:field="*{firstName}"  name="firstname" placeholder="First Name">
+                                    </div>
+                            <div class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}"
+                                 th:errors="*{firstName}"></div>
+
+
+                            <div class="form-group">
+                                <input type="text" required="" th:field="*{lastName}" name="lastname" placeholder="Last Name">
+                            </div>
+                            <div class="alert alert-danger" th:if="${#fields.hasErrors('lastName')}"
+                                 th:errors="*{lastName}"></div>
+
+
+                            <div class="form-group">
+                                <input type="email" required="" th:field="*{username}" name="username" placeholder="Email/Username">
+                            </div>
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('username')}"
+                                         th:errors="*{username}"></div>
+
+
+                                    <div class="form-group">
+                                        <input type="tel" required="" th:field="*{phoneNumber}" name="phoneNumber" placeholder="Phone Number">
+                                    </div>
+                                    <div class="alert alert-danger" th:if="${#fields.hasErrors('phoneNumber')}"
+                                         th:errors="*{phoneNumber}"></div>
+
+
+
+
+                                    <div class="form-group">
+                                <input required="" type="password" th:field="*{password}" name="password" placeholder="Password">
+                            </div>
+                            <div class="alert alert-danger" th:if="${#fields.hasErrors('password')}"
+                                 th:errors="*{password}"></div>
+
+
+                            <div class="form-group">
+                                <input required="" type="password" th:field="*{repeatPassword}" name="repeatPassword" placeholder="Confirm password">
+                            </div>
+                                    <div class="form-group">
+                                        <input type="text" name="referralCode" th:field="*{referralCode}" placeholder="Referral Code" class="form-control">
+                                        <div class="form-group">
+                                            <button type="button" class=" btn-light" id="checkReferralCodeButton" style="margin-top: 11px; padding: 5px 10px; font-size: 10px; border:black;background-color: #e9edeb; border-radius: 5px;">Check Referral Code</button>
+                                        </div>
+                                    </div>
+
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-fill-out btn-block hover-up" name="login">Submit &amp; Register</button>
+                            </div>
+
+                                    <div class="text-muted text-center">Already have an account? <a th:href="@{/login}">Sign in now</a></div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<footer th:replace="~{fragments::downbar}"></footer>
+
+
+
+<div th:replace = "~{fragments::script}"></div>
+<script>
+    $(document).ready(function () {
+        console.log("start")
+        function checkReferralCode() {
+            var referralCode = $("#referralCode").val(); // Get the entered referral code
+            console.log(referralCode)
+            // Send an AJAX request to your server to check the referral code
+            $.ajax({
+                type: "POST",
+                url: '/user/checkReferralCode',
+                data: { referralCode: referralCode },
+                success: function (response) {
+                    if (response === "valid") {
+                        alert("Referral code is valid. Thank you for accepting the Referral");
+                    } else if (response === "invalid") {
+                        alert("Referral code is not associated with any account.");
+                    } else {
+                        alert("An error occurred while checking the referral code.");
+                    }
+                },
+                error: function () {
+                    alert("An error occurred while checking the referral code.");
+                }
+            });
+        }
+        console.log("referralCode");
+
+        $("#checkReferralCodeButton").click(function (event) {
+            event.preventDefault();
+            checkReferralCode();
+        });
+    });
+</script>
+
+
+
+</body>
+
+</html>

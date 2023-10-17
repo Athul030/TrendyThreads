@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+<head th:replace="~{fragments::head}">
+
+
+<body>
+<header th:replace="~{fragments::topbar}">
+</header>
+
+
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a th:href="@{/index}" rel="nofollow">Home</a>
+                    <span></span> Pages
+                    <span></span> Account
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5">
+
+            <div th:if = "${text}">
+                <p class = "alert alert-danger" th:text = "${text}"></p>
+            </div>
+        </div>
+
+
+
+
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-11 m-auto">
+                        <div th:if="${message}" class="alert alert-success">
+                            <p th:text="${message}"></p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="dashboard-menu">
+                                    <ul class="nav flex-column" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false"><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                        </li>
+<!--                                        <li class="nav-item">-->
+<!--                                            <a class="nav-link" id="track-orders-tab" data-bs-toggle="tab" href="#track-orders" role="tab" aria-controls="track-orders" aria-selected="false"><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>-->
+<!--                                        </li>-->
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address" role="tab" aria-controls="address" aria-selected="true"><i class="fi-rs-marker mr-10"></i>My Address</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" th:href="@{/wallets}" ><i class="fi-rs-user mr-10"></i>Wallet details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" th:href="@{/wishlist}" ><i class="fi-rs-user mr-10"></i>Your Wishlist</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" th:href="@{/logout}"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="tab-content dashboard-content">
+
+
+                                    <div class="tab-pane fade active show" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Hello! </h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>From your account dashboard. you can easily check &amp; view your <a href="#">recent orders</a>, manage your <a href="#">addresses</a> and <a href="#">see your wallet details.</a></p>
+                                            </div>
+                                            <div class="card-header">
+                                            <h5 class="mb-0">My Profile </h5>
+                                        </div>
+                                        <div class="card-body">
+
+                                            <div th:object="${customer} ">
+                                                <div class="card mb-30" style="border: none;">
+                                                    <div>
+                                                    <label for="fullName" style="color: #888;">Full Name:</label>
+                                                    <span id="fullName" th:text="${customer.firstName + ' ' + customer.lastName}"></span>
+                                                </div><br>
+                                                    <div >
+                                                        <label for="email" style="color: #888;">Email:</label>
+                                                        <span id="email" th:text="${customer.username}"></span>
+                                                    </div><br>
+                                                    <div>
+                                                        <label for="phone" style="color: #888;">Phone Number:</label>
+                                                        <span id="phone" th:text="${customer.phoneNumber}"></span>
+                                                    </div><br>
+                                                    <div>
+                                                        <label for="referralCode" style="color: #888;">My referral Code:</label>
+                                                        <span id="referralCode" th:text="${customer.referralCode}"></span>
+                                                        <div class="form-group">
+                                                            <input type="email" id="emailAddress" style="width: 50%;" placeholder="Recipient's Email Address">
+                                                            <button type="button" class=" btn-light" style="margin-top: 11px; padding: 5px 10px; font-size: 10px; border:black;background-color: #e9edeb; border-radius: 5px;" id="shareViaEmailButton" onclick="shareViaEmail()">Share Referral Code via Email</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div >
+
+
+                                        </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="mb-0">Your Orders</h5>
+                                            </div>
+
+
+                                            <div class="table-main table-responsive">
+                                                <table class="table" id="orderTable">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Order ID</th>
+                                                        <th class="order-date">Order Date</th>
+                                                        <th>Delivery Date</th>
+                                                        <th class="price-pr">Order Status</th>
+                                                        <th>Total Price</th>
+                                                        <th class="total-pr">Payment Method</th>
+                                                        <th>Payment Status</th>
+                                                        <th>Order Tracking</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr th:each="order : ${orders}">
+                                                        <td>
+                                                            <p th:text="${order.id}"></p>
+                                                        </td>
+                                                        <td class="order-date">
+                                                            <span><b>[(${order.orderDate})]</b></span>
+                                                        </td>
+                                                        <td class="name-pr" >
+                                                            <a th:if = "${order.accept ==true}" href="#">
+                                                                [(${order.deliveryDate})]
+                                                            </a>
+                                                        </td>
+                                                        <td class="price-pr">
+                                                            <p th:text="${order.orderStatus}"></p>
+                                                        </td>
+                                                        <td class="total-pr">
+                                                            <p style="color: red">₹ [(${order.totalPrice})]</p>
+                                                        </td>
+                                                        <td class="total-pr" style="color: black">
+                                                            <span>[(${order.paymentMethod})]</span>
+                                                        </td>
+                                                        <td>
+                                                            <span th:unless="${#strings.equals(order.orderStatus, 'Cancelled')}">[(${order.paymentStatus})]</span>
+                                                            <span th:if="${#strings.equals(order.orderStatus, 'Cancelled')}">[(${order.orderStatus})]</span>
+                                                        </td>
+                                                        <td>
+                                                            <a th:href="@{/order-tracking/{id}(id = ${order.id})}">View Order</a>
+                                                        </td>
+                                                        <td>
+<!--                                                            <a th:href="@{/order-view/{id}(id = ${order.id})}" class="button-cancel" >View</a>-->
+                                                            <a th:if="${order.orderStatus=='Delivered'}" th:href="@{/return-order/{id}(id = ${order.id})}" class="button-cancel" onclick="if (!(confirm('Are you sure you want to Return this Order?'))) return false" >Return</a>
+                                                            <a  th:unless="${order.orderStatus=='Cancelled' or order.orderStatus == 'Delivered' or order.orderStatus=='Returned' }" th:href="@{/cancel-order/{id}(id = ${order.id})}" class="button-cancel"
+                                                                onclick="if (!(confirm('Are you sure you want to Cancel this Order?'))) return false">Cancel</a>
+                                                        </td>
+                                                        </a>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                                        <div class="row">
+                                            <a th:href="@{/add-address}" class="plus-button ">
+                                                <span class="plus-sign"></span> Add New
+                                            </a>
+<!--                                            <div class="col-lg-6" >-->
+<!--                                                <div class="card mb-3 mb-lg-0">-->
+<!--                                                    <div class="card-header">-->
+<!--                                                        <h5 class="mb-0">Billing Address</h5>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="card-body">-->
+<!--                                                        <address>3522 Interstate<br> 75 Business Spur,<br> Sault Ste. <br>Marie, MI 49783</address>-->
+<!--                                                        <p>New York</p>-->
+<!--                                                        <a href="#" class="btn-small">Edit</a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+
+
+
+<!--                                            </div>-->
+                                            <div class="col-lg-6 pt-10">
+
+
+                                                <div th:each="address : ${addresses} ">
+                                                <div class="card mb-30">
+                                                    <div class="card-header">
+                                                        <h5 class="mb-0"><span th:text="${address.addressLine1}"></span></h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <address>
+                                                            <input type="hidden" th:value="${address.id}">
+                                                            <span th:text="${address.addressLine2}"></span>,<br>
+                                                            <span th:text="${address.city}"></span>, <br>
+                                                            <span th:text="${address.pincode}"></span>,<br>Ph:<span th:text="${customer.phoneNumber}"></span>
+                                                        </address>
+                                                        <p><span th:text="${address.district}"></span></p>
+                                                        <p><span th:text="${address.state}"></span></p>
+                                                        <p><span th:text="${address.country}"></span></p>
+                                                        <a th:href="@{/edit-address/{id} (id=${address.id})}" class="btn-small">Edit</a>
+
+                                                    </div>
+                                                </div>
+                                                </div >
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>Account Details</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>Already have an account? <a href="page-login-register.html">Log in instead!</a></p>
+                                                <form method="post" name="enq">
+                                                    <div class="row">
+                                                        <div class="form-group col-md-6">
+                                                            <label>First Name <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="name" type="text">
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label>Last Name <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="phone">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Display Name <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="dname" type="text">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Email Address <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="email" type="email">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Current Password <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="password" type="password">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>New Password <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="npassword" type="password">
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Confirm Password <span class="required">*</span></label>
+                                                            <input required="" class="form-control square" name="cpassword" type="password">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <button type="submit" class="btn btn-fill-out submit" name="submit" value="Submit">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<footer th:replace="~{fragments::downbar}"></footer>
+
+<div th:replace = "~{fragments::script}"></div>
+
+<script>
+    function shareViaEmail() {
+            var referralCode = document.getElementById("referralCode").textContent;
+            var emailAddress = document.getElementById("emailAddress").value;
+            if (!emailAddress) {
+                alert("Please enter a recipient's email address.");
+                return;}
+        console.log("Referral Code: " + referralCode);
+        console.log("Email Address: " + emailAddress);
+            $.ajax({
+                type: "POST",
+                url: "/user/shareReferral",
+                data: {
+                    referralCode: referralCode,
+                    emailAddress: emailAddress
+                },
+                success: function (response) {
+                    console.log("AJAX request successful.");
+                    if (response === "success") {
+                        alert("Referral code shared successfully.");
+                    } else {
+                        alert("Failed to share the referral code.");
+                    }},
+                error: function (xhr, status, error) {
+                    console.error("An error occurred while sharing the referral code: " + error);
+                    alert("An error occurred while sharing the referral code.");
+                }
+            });
+        }
+</script>
+
+</body>
+
+</html>

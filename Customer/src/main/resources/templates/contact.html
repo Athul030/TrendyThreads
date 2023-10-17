@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+<head th:replace="~{fragments::head}">
+
+<body>
+<header th:replace="~{fragments::topbar}">
+</header>
+
+
+
+
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a th:href="@{/index}" rel="nofollow">Home</a>
+                <span></span> Contact
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <br>
+        <br>
+        <h1 class="text-center mb-50">Contact Us</h1>
+    </div>
+    <div class="container col-lg-8 mb-50">
+        <p><h2>Welcome to our men's clothing store- <a th:href="@{/index}"><span class="brand-name">Trendy Threads</span></a>!</h2></p>
+
+
+        <div class="container mb-25">
+            <p>Feel free to reach out to us for any inquiries or assistance.</p>
+            <div class="contact-info">
+                <p>Email: <a href="mailto:info@trendythreads.com">info@trendythreads.com</a></p>
+                <p>Phone: <a href="tel:+919633513774">+91 9633513774</a></p>
+                <p>Address: 123 Maradu, Kochi</p>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<div th:replace = "~{fragments::script}"></div>
+</body>
+
+</html>

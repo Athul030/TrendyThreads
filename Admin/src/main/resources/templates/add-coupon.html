@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:replace="~{fragments :: header}">
+
+
+</head>
+<body id="page-top">
+<!-- Page Wrapper -->
+<div id="wrapper">
+  <!-- Sidebar -->
+  <ul th:replace="~{fragments :: sidebar}"></ul>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <nav th:replace="~{fragments :: topbar}"></nav>
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid">
+        <br>
+        <!-- Page Heading -->
+        <div th:if = "${size == 0}">
+          <p>No products in shop</p>
+        </div>
+        <div th:if = "${success}" class="text-center alert alert-success">
+          <p th:text = "${success}"></p>
+        </div>
+        <div th:if = "${error}" class="text-center alert alert-danger">
+          <p th:text = "${error}"></p>
+        </div>
+        <a class="btn btn-primary" th:href = "@{/coupons/add-coupon}">Add new Coupon</a>
+        <!--Just Some space-->
+        <div class="mb-3"></div>
+
+
+        <div class="container mt-10 p-30">
+          <!--    <div th:if="${error}" class="alert alert-danger">-->
+          <!--      <strong th:text="${'Coupon ' + couponCode + ' already exist!'}">Danger!</strong>-->
+          <!--    </div>-->
+
+          <h2 class="mt-2">Create Coupon</h2>
+          <form th:action="@{/coupons/save}" th:object="${coupon}"  method="post">
+
+            <div th:if="${#fields.hasErrors('*')}">
+              <div class="alert alert-danger">
+                <ul>
+                  <li th:each="error : ${#fields.errors('*')}" th:text="${error}"></li>
+                </ul>
+              </div>
+            </div>
+
+
+            <div class="col-md-4">
+              <label for="CouponCode" class="form-label">Code</label>
+              <input type="text" name="code" class="form-control" id="CouponCode" required pattern="[A-Za-z0-9]+">
+            </div>
+
+            <div class="col-md-4">
+              <label for="CouponDescription" class="form-label">Description</label>
+              <input name="description"   required class="form-control" id="CouponDescription" pattern="[A-Za-z0-9%]+( [A-Za-z0-9%]+)*">
+            </div>
+
+            <div class="col-md-4">
+              <label for="CouponOff" class="form-label">Percentage Off</label>
+              <input type="number" name="offPercentage" class="form-control" id="CouponOff" required max="100" min="1">
+            </div>
+
+
+            <div class="col-md-4">
+              <label for="CouponMax" class="form-label">Max Off in Rs.</label>
+              <input type="number" name="maxOff" class="form-control" id="CouponMax" required min="1">
+
+            </div>
+
+            <div class="col-md-4">
+              <label for="minOrderAmount" class="form-label">Minimum Order Amount</label>
+              <input type="number" name="minOrderAmount" class="form-control" id="minOrderAmount" required min="1">
+
+            </div>
+
+
+            <div class="col-md-4">
+              <label for="CouponDate" class="form-label">Expiry Date</label>
+              <input type="date" name="expiryDate" class="form-control" id="CouponDate" required th:min="${minimumDate}">
+            </div>
+
+
+            <div class="col-md-4">
+              <label for="CouponCount" class="form-label">Count</label>
+              <input type="number" name="count" class="form-control" id="CouponCount" required th:min="1">
+            </div>
+
+
+
+            <div class="col-12 mt-25">
+              <button class="btn btn-primary" type="submit">Save</button>
+            </div>
+          </form>
+
+        </div>
+
+
+
+
+
+
+
+      </div>
+      <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+    <!-- Footer -->
+    <footer th:replace="~{fragments :: footer}">
+    </footer>
+    <!-- End of Footer -->
+
+  </div>
+  <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a th:replace="~{fragments :: scroll}">
+</a>
+
+<!-- Logout Modal-->
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments :: script}"></div>
+<script th:src="@{/js/categories.js}"></script>
+
+</body>
+
+</html>

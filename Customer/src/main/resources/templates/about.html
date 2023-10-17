@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "https://www.thymeleaf.org/">
+<head th:replace="~{fragments::head}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+        /* Add your custom CSS styles here for a colorful and stylish page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #007BFF;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .brand-name {
+            font-weight: bold;
+            font-size: 24px; /* Adjust the font size as needed */
+            color: #007BFF; /* You can use your brand's color here */
+        }
+    </style>
+
+
+
+<body>
+<header th:replace="~{fragments::topbar}"></header>
+
+
+
+
+<main class="main">
+    <div class="page-header breadcrumb-wrap">
+        <div class="container">
+            <div class="breadcrumb">
+                <a th:href="@{/index}" rel="nofollow">Home</a>
+                <span></span> About
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <br>
+        <br>
+        <h1 class="text-center mb-50">About Us</h1>
+    </header>
+    <div class="container col-lg-8">
+        <p>Welcome to our men's clothing store- <a th:href="@{/index}"><span class="brand-name">Trendy Threads</span></a>! We are passionate about fashion and dedicated to providing you with the latest trends and high-quality clothing for men.</p>
+
+        <p>Our mission is to make you look and feel your best. Whether you're dressing up for a special occasion or looking for comfortable everyday wear, we have a wide range of stylish options to choose from.</p>
+
+        <p>At our store, you'll find a curated collection of men's apparel, including suits, casual wear, accessories, and more. Our team of fashion experts is here to assist you in finding the perfect outfit for any occasion.</p>
+
+        <p>We value our customers and strive for excellence in both fashion and customer service. Your satisfaction is our priority, and we look forward to helping you elevate your style.</p>
+    </div>
+
+</main>
+
+<div th:replace = "~{fragments::script}"></div>
+</body>
+
+</html>

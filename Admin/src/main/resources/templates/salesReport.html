@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<head th:fragment="header">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title th:text="${title}" ></title>
+
+    <!-- Custom fonts for this template-->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/export.css}" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+
+
+</head>
+
+
+<body id="page-top">
+<!-- Page Wrapper -->
+<div id="wrapper">
+    <!-- Sidebar -->
+    <ul th:replace="~{fragments :: sidebar}">
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav th:replace="~{fragments :: topbar}"></nav>
+            <!-- End of Topbar -->
+
+
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Sales Report</h1>
+                </div>
+                <br>
+
+                <div class="pb-4">
+                <button id="exportToPDF" class="export-button" onclick="generatePDF()">Export to PDF</button>
+                    <button id="exportToCSV" class="export-button">Export to CSV</button>
+
+                </div>
+
+                <form method="GET" th:action="@{/salesReport/filter}">
+                    <label for="month">Select Month:</label>
+                    <select id="month" name="month">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+
+
+                        <!-- Add options for all months -->
+                    </select>
+
+                    <label for="year">Select Year:</label>
+                    <select id="year" name="year">
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <!-- Add options for all relevant years -->
+                    </select>
+
+                    <button type="submit" class="filter-button">Filter Data</button>
+                </form>
+
+                <!-- Page Heading -->
+                <div th:if = "${size == 0}">
+                    <p>No Sales Report yet</p>
+                </div>
+                <div th:if = "${success}" class="text-center alert alert-success">
+                    <p th:text = "${success}"></p>
+                </div>
+                <div th:if = "${cancelled}" class="text-center alert alert-danger">
+                    <p th:text = "${cancelled}"></p>
+                </div>
+
+
+
+                <!--Order Table-->
+                <div class="mb-3"></div>
+                <table id="salesReportTable"  class="table table-striped" th:if = "${size > 0}">
+                    <thead>
+                    <tr>
+                        <th scope="col">Index</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Category Name</th>
+                        <th scope="col">Cost Price in Rs.</th>
+                        <th scope="col">Quantity Sold</th>
+                        <th scope="col">Revenue in Rs.</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr th:each="productEarning, rowStat : ${productEarnings}">
+                        <td th:text="${rowStat.count}"></td>
+                        <td th:text="${productEarning[1]}"></td>
+                        <td th:text="${productEarning[2]}"></td>
+                        <td style="align-items: center"; th:text="${productEarning[3]}"></td>
+                        <td th:text="${productEarning[4]}"></td>
+                        <td th:text="${productEarning[3]}*${productEarning[4]}"></td>
+                    </tr>
+<!--                    <tr>-->
+<!--                        <td class="grandTotal" colspan="4"><b style="color: #01012a;">Grand Total:</b></td>-->
+<!--                        <td th:text="${totalQuantity}" style="font-weight: bold; color: #01012a;"></td>-->
+<!--                        <td th:text="${totalRevenue}" style="font-weight: bold; color: #01012a;"></td>-->
+<!--                    </tr>-->
+
+
+                    </tbody>
+                </table>
+
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+
+
+        <!-- Footer -->
+        <footer th:replace="~{fragments :: footer}">
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a th:replace="~{fragments :: scroll}">
+</a>
+
+<!-- Logout Modal-->
+
+<!-- Bootstrap core JavaScript-->
+<div th:replace="~{fragments :: script}"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function() {
+        $('#salesReportTable').DataTable(
+            {
+                order: [
+                    [
+                        0, 'asc'
+                    ]
+                ]
+            }
+        );
+    });
+
+
+</script>
+
+<script>
+    function generatePDF() {
+        const table = document.getElementById("salesReportTable");
+        const content = [];
+
+        // Extract table content
+        for (let i = 0; i < table.rows.length; i++) {
+            const row = [];
+            for (let j = 0; j < table.rows[i].cells.length; j++) {
+                row.push({ text: table.rows[i].cells[j].textContent });
+            }
+            content.push(row);
+        }
+
+        // Define the document definition
+        const documentDefinition = {
+            content: [
+                { text: "Sales Report - Trendy Threads", style: "header" },
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: ["*", "*", "*", "*", "*", "*"],
+                        body: content,
+                    },
+                },
+            ],
+            styles: {
+                header: {
+                    fontSize: 18,
+                    bold: true,
+                    alignment: "center",
+                    margin: [0, 0, 0, 20],
+                },
+                tableStyle: {
+                    fillColor: "#cceeff", // Light blue fill color
+                    margin: [0, 10, 0, 0],
+                },
+            },
+        };
+
+        pdfMake.createPdf(documentDefinition).download("SalesReport_TrendyThreads.pdf");
+    }
+
+</script>
+
+
+<script>
+    document.getElementById("exportToCSV").addEventListener("click", function () {
+        // Select the table
+        var table = document.getElementById("salesReportTable");
+
+        // Initialize an empty CSV string
+        var csv = "";
+
+        // Iterate through the table rows
+        for (var i = 0; i < table.rows.length; i++) {
+            var row = table.rows[i];
+
+            // Iterate through the table cells in the row
+            for (var j = 0; j < row.cells.length; j++) {
+                var cell = row.cells[j];
+
+                // Extract and clean the cell's text content
+                var cellText = cell.textContent.trim();
+
+                // Add the cell's content to the CSV string
+                csv += cellText;
+
+                // Add a comma as a delimiter, except for the last cell in each row
+                if (j < row.cells.length - 1) {
+                    csv += ",";
+                }
+            }
+
+            // Add a newline character to separate rows
+            csv += "\n";
+        }
+
+        // Create a data URI for the CSV content
+        var csvData = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+
+        // Create a link to trigger the download
+        var csvLink = document.createElement("a");
+        csvLink.setAttribute("href", csvData);
+        csvLink.setAttribute("download", "SalesReport-TrendyThreads.csv");
+        csvLink.click();
+    });
+</script>
+
+
+
+</body>
+
+</html>
