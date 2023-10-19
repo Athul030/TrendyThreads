@@ -3,15 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Define the profiles section -->
-    <profiles>
-        <profile>
-            <id>skipLibraryTests</id>
-            <properties>
-                <skipTests>true</skipTests>
-            </properties>
-        </profile>
-    </profiles>
+
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -26,7 +18,6 @@
     <description>Library</description>
     <properties>
         <java.version>17</java.version>
-        <skipTests>true</skipTests>
     </properties>
 
 
@@ -106,17 +97,6 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>${skipTests}</skipTests>
-                    <excludes>
-                        <exclude>com/athul/library/**/*Test.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
