@@ -168,9 +168,12 @@
 
                             <td th:text="${orderDetail.quantity}"></td>
                             <td class="text-end">
-                                <p th:unless="${orderDetail.product.salePrice > 0}" th:text="${orderDetail.product.costPrice} * ${orderDetail.quantity}"></p>
-                                <p th:if="${orderDetail.product.salePrice > 0}" th:text="${orderDetail.product.salePrice} * ${orderDetail.quantity}"></p>
+                                <p th:unless="${orderDetail.product.salePrice > 0}" th:text="${#numbers.formatDecimal(orderDetail.product.costPrice * orderDetail.quantity, 2, 'COMMA', 2, 'POINT')}"></p>
+                                <p th:if="${orderDetail.product.salePrice > 0}" th:text="${#numbers.formatDecimal(orderDetail.product.salePrice * orderDetail.quantity, 2, 'COMMA', 2, 'POINT')}"></p>
                             </td>
+
+
+
 
                         </tr>
                         <tr class="col-lg-12">
