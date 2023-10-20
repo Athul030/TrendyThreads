@@ -61,8 +61,12 @@ public class DashboardController {
         model.addAttribute("totalOrders",totalOrders);
         int totalPendingOrders= (int) dashBoardService.findOrdersPending();
         model.addAttribute("totalPendingOrders",totalPendingOrders);
-
-        int progress=(totalPendingOrders*100)/totalOrders;
+        int progress=0;
+        if(totalOrders!=0) {
+             progress = (totalPendingOrders * 100) / totalOrders;
+        }else{
+            progress=0;
+        }
         model.addAttribute("progress",progress);
 
         /* Earning chart*/
