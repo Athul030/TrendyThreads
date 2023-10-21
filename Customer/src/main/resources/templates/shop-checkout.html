@@ -161,7 +161,7 @@
                                     </thead>
                                     <tbody>
                                         <tr th:each="cartItem :  ${cart.cartItems}">
-                                            <td class="image product-thumbnail"><img th:src="@{${'/imgs/image-product/' + cartItem.product.imageUrls[0]}}" alt=""></td>
+                                            <td class="image product-thumbnail"><img th:src="@{${'imgs/image-product/' + cartItem.product.imageUrls[0]}}" alt=""></td>
                                             <td>
                                                 <h5 class="product-name" th:text="${cartItem.product.name}"></h5> x <span th:text="${cartItem.quantity}"></span>
                                             </td>

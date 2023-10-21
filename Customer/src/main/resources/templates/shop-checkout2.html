@@ -145,7 +145,7 @@
                                     <tbody>
                                     <tr th:each="cartItem : ${cart.cartItems}">
                                         <td class="image product-thumbnail">
-                                            <img th:src="@{${'/imgs/image-product/' + cartItem.product.imageUrls[0]}}" >
+                                            <img th:src="@{${'imgs/image-product/' + cartItem.product.imageUrls[0]}}" >
                                         </td>
                                         <td>
                                             <h5 class="product-name" th:text="${cartItem.product.name}"></h5>

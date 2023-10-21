@@ -42,7 +42,7 @@
               <tbody>
               <tr th:each="wishlist : ${wishlists}">
                 <td class="image product-thumbnail">
-                  <img th:src="@{|/imgs/image-product/${wishlist.product.imageUrls[0]}|}" alt="ProductImage">
+                  <img th:src="@{imgs/image-product/${wishlist.product.imageUrls[0]}}" alt="ProductImage">
                 </td>
                 <td class="product-des product-name">
                   <h5 class="product-name"><a th:href="@{/product-full/{id}(id = ${wishlist.product.id})}" th:text="${wishlist.product.name}"></a></h5>

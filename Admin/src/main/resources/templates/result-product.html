@@ -66,7 +66,7 @@
             <td th:text = "${product.category.name}"></td>
             <td th:text = "${product.costPrice}"></td>
             <td th:text = "${product.currentQuantity}"></td>
-            <td><img src="" style="height: 40px; width: 40px;" alt="Product" th:src="'data:image/jpeg;base64,' + ${product.productImage}"></td>
+            <td><img src="" style="height: 40px; width: 40px;" alt="Product" th:src="@{'img/image-product/' + ${product.imageUrls[0]}}"></td>
             <td><a th:href="@{/update-products/{id}(id= ${product.id})}" class="btn btn-primary">Update</a></td>
             <td>
               <a th:if = "${product.activated == false}" th:href="@{/enable-product/{id} (id = ${product.id})}" class="btn btn-warning">Enable</a>
