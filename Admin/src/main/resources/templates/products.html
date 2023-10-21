@@ -81,7 +81,7 @@
                         <td th:text = "${product.costPrice}"></td>
                         <td th:text = "${product.currentQuantity}"></td>
                         <td>
-                            <img style="height: 60px; width: 60px;" th:if="${product.imageUrls != null and product.imageUrls[0] != null}" th:src="@{'/img/image-product/' + ${product.imageUrls[0]}}"/>
+                            <img style="height: 60px; width: 60px;" th:if="${product.imageUrls != null and product.imageUrls[0] != null}" th:src="@{|'/img/image-product/' + ${product.imageUrls[0]}|}"/>
                         </td>
 
 <!--                        <td>-->
