@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
@@ -30,7 +31,10 @@ public class DashboardController {
     }
 
     @RequestMapping("/index")
-    public String home(Model model) throws JsonProcessingException {
+    public String home(Model model, Principal principal) throws JsonProcessingException {
+        if (principal == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("title", "Home Page");
         Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
         if(authentication==null || authentication instanceof AnonymousAuthenticationToken){
