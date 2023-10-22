@@ -202,7 +202,7 @@ public class OrderServiceImpl implements OrderService {
             Order order = orderRepository.getReferenceById(order_id);
 
 
-            if (!order.getOrderStatus().equals("Returned")) {
+            if (!order.getOrderStatus().equals("Returned")||!order.getOrderStatus().equals("Cancelled")) {
                 if (status.equals("Shipped")) {
                     order.setShippedDateTime(LocalDateTime.now());
                     order.setOrderStatus(status);
