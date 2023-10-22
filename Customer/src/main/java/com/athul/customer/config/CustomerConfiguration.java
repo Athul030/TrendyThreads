@@ -75,7 +75,7 @@ public class CustomerConfiguration {
                 .authorizeHttpRequests(authorize->authorize
                         .requestMatchers("/css/**","/imgs/**","/js/**","/less/**","/pages/**","/scss/**","/vendor/**","/sass/**").permitAll()
                         .requestMatchers("/user/**").hasAuthority("CUSTOMER")
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/**","/index/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form->form
                         .loginPage("/login")
