@@ -30,7 +30,7 @@ public class DashboardController {
         this.dashBoardService = dashBoardService;
     }
 
-    @RequestMapping("/index")
+    @RequestMapping(value={"/index","/"})
     public String home(Model model, Principal principal) throws JsonProcessingException {
         if (principal == null) {
             return "redirect:/login";
