@@ -53,7 +53,7 @@
                   </form>
                 </td>
 
-                <td class="price" data-title="Price" th>
+                <td class="price" data-title="Price">
                   <span th:unless="${wishlist.product.salePrice > 0}">₹[(${wishlist.product.costPrice})]</span>
                   <span th:if="${wishlist.product.salePrice > 0}">₹[(${wishlist.product.salePrice})]</span>
                   <span th:if="${wishlist.product.salePrice > 0}" class="old-price">₹[(${wishlist.product.costPrice})]</span>
