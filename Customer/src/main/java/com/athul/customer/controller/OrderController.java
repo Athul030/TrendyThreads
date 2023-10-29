@@ -105,6 +105,14 @@ public class OrderController {
             List<CouponDto> couponDto=couponService.getAllCoupons();
             model.addAttribute("coupons",couponDto);
             ShoppingCart cart = customer.getCart();
+            for(CartItem cartItem:cart.getCartItems()){
+                if(cartItem.getProduct().getCurrentQuantity()<cartItem.getQuantity()){
+                    String errorMessage="Insufficient Quantity Available for " +cartItem.getProduct().getName();
+                    redirectAttributes.addFlashAttribute("errorMessage",errorMessage);
+                    String referer = httpServletRequest.getHeader("referer");
+                    return "redirect:" + referer;
+                }
+            }
 
             model.addAttribute("cart", cart);
         }
