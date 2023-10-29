@@ -102,6 +102,20 @@
                             <input id="price"  th:field = "*{costPrice}" name="price" class="form-control input-md" required="" type="text">
                         </div>
                     </div>
+
+                    <!-- THUMBNAILS -->
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="price">EXISTING IMAGES</label>
+                    <div class="slider-nav-thumbnails pl-15 pr-15 col-md-4" >
+                        <th:block th:each="image : ${products.imageUrls}">
+                            <img th:src="@{'../img/image-product/' + ${image}}" alt="product Image"
+                                 style="width: 100px; height: 100px;">
+                            </th:block>
+                    </div>
+
+                    </div>
+
                     <!-- Text input-->
                     <div class="form-group">
                         <div class="col-md-4">

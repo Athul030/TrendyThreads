@@ -119,6 +119,7 @@ public class ProductController {
         model.addAttribute("title","Update Products");
         model.addAttribute("categories",categories);
         model.addAttribute("products",productDto);
+        System.out.println(productDto);
         return "update-products";
     }
 

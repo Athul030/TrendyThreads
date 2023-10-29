@@ -182,7 +182,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public ProductDto getById(Long id) {
-        Product product=productRepository.getById(id);
+        Product product=productRepository.getReferenceById(id);
         ProductDto productDto=new ProductDto();
         productDto.setId(product.getId());
         productDto.setName(product.getName());
@@ -190,7 +190,7 @@ public class ProductServiceImpl implements ProductService{
         productDto.setSalePrice(product.getSalePrice());
         productDto.setCostPrice(product.getCostPrice());
         productDto.setCurrentQuantity(product.getCurrentQuantity());
-        product.setImageUrls(product.getImageUrls());
+        productDto.setImageUrls(product.getImageUrls());
         productDto.setCategory(product.getCategory());
         productDto.setProductDeleted(product.isProductDeleted());
         productDto.setProductActivated(product.isProductActivated());
