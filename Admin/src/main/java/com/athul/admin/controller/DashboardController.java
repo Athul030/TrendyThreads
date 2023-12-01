@@ -56,7 +56,7 @@ public class DashboardController {
         LocalDate localEndDateYearly = LocalDate.of(currentYear.getYear(),Month.DECEMBER,31);
         Date startDateYearly = java.sql.Date.valueOf(localStartDateYearly);
         Date endDateYearly = java.sql.Date.valueOf(localEndDateYearly);
-        double currentYearlyEarning=dashBoardService.findCurrentMonthOrder(startDateYearly,endDateYearly);
+        double currentYearlyEarning=Math.round(dashBoardService.findCurrentMonthOrder(startDateYearly,endDateYearly));
         int year=currentYear.getYear();
         model.addAttribute("currentYear",year);
         model.addAttribute("currentYearlyEarning",currentYearlyEarning);

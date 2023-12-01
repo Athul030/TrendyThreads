@@ -95,8 +95,10 @@ public class CartController {
                 model.addAttribute("shoppingCart", shoppingCart);
             }catch (InsufficientQuantityException ex) {
                 String errorMessage = ex.getMessage();
-                System.out.println("hereeereer");
+                String referer = request.getHeader("referer");
                 redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+                return "redirect:" + referer;
+
             }
 
         }
