@@ -16,8 +16,8 @@ import java.util.UUID;
 @Component
 public class ImageUpload {
 
-    private final String UPLOAD_DIR= "/home/ubuntu/TrendyThreads/Admin/src/main/resources/static/img/image-product";
-    private final String UPLOAD_DIR_CUS= "/home/ubuntu/TrendyThreads/Customer/src/main/resources/static/imgs/image-product";
+    private final String UPLOAD_DIR= "/home/athul_raj100/TrendyThreads/Admin/src/main/resources/static/img/image-product";
+    private final String UPLOAD_DIR_CUS= "/home/athul_raj100/TrendyThreads/Customer/src/main/resources/static/imgs/image-product";
 
     public List<String> uploadImages(List<MultipartFile> imageFiles) throws IOException {
         File uploadDir = new File(UPLOAD_DIR);
