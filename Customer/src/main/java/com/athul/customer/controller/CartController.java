@@ -43,7 +43,7 @@ public class CartController {
                 redirectAttributes.addFlashAttribute("text","Sadly cart is empty, keep shopping");
 
                 String referer = httpServletRequest.getHeader("referer");
-                if(referer=="http://localhost:8081/user/cart"){
+                if(referer=="https://athulraj.shop/user/cart"){
                     return "redirect:/shop-list-right";
                 }
                 else if(referer!=null) {
@@ -141,7 +141,7 @@ public class CartController {
             ShoppingCart shoppingCart = cartService.removeItemFromCart(productDto, username);
             model.addAttribute("shoppingCart", shoppingCart);
             String referer = httpServletRequest.getHeader("referer");
-            String check="http://localhost:8081/user/cart";
+            String check="https://athulraj.shop/user/cart";
             if(referer.equals(check) && shoppingCart.getCartItems().size()==0){
 
                 Customer customer = customerService.findByUsername(principal.getName());
